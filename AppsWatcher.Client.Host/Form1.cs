@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Reflection;
 using System.Windows.Forms;
+using AppsWatcher.Client.EndPoints.Configuration;
 using AppsWatcher.Common.Core;
-using AppWatcher.Client.EndPoints;
+using AppsWatcher.Client.EndPoints;
 
 namespace AppsWatcher.Client.Host
 {
@@ -33,10 +37,11 @@ namespace AppsWatcher.Client.Host
         {
             this.Visible = false;
 
-            this.ConfigureEndPoints();
-
-            _watcher = new Watcher(Configuration.Interval);
-            _watcher.Start();
+            if (this.ConfigureEndPoints())
+            {
+                _watcher = new Watcher(Settings.Interval);
+                _watcher.Start();
+            }
         }
 
         /// <summary>
@@ -52,10 +57,62 @@ namespace AppsWatcher.Client.Host
         /// <summary>
         /// 
         /// </summary>
-        private void ConfigureEndPoints()
+        private EndPointsConfigurationSection EndPointsConfiguration
         {
-            var endPoints = new List<IEndPoint> { new FileSystemEndPoint() };
-            ComponentsContainer.Instance.RegisterComponent<IEnumerable<IEndPoint>>(endPoints);
+            get
+            {
+                return (EndPointsConfigurationSection)ConfigurationManager.GetSection("EndPointsConfiguration");
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private IEnumerable<EndPointConfig> EndPoints
+        {
+            get
+            {
+                return EndPointsConfiguration.EndPoints.OfType<EndPointConfig>();
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private bool ConfigureEndPoints()
+        {
+            bool configured = false;
+
+            try
+            {
+                var endPoints = new List<IEndPoint>();
+                var configuredEndPoints = this.EndPoints.Where(ep => ep.Enabled);
+
+                if (configuredEndPoints.Any())
+                {
+
+                    foreach (var endPointConfig in configuredEndPoints)
+                    {
+                        var assembly = Assembly.Load(new AssemblyName(endPointConfig.Assembly));
+                        var ep = assembly.CreateInstance(endPointConfig.Type);
+                        var iep = ep as IEndPoint;
+                        iep.Config = endPointConfig;
+                        endPoints.Add(iep);
+                    }
+
+                    if (endPoints.Count > 0)
+                    {
+                        ComponentsContainer.Instance.RegisterComponent<IEnumerable<IEndPoint>>(endPoints);
+                        configured = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                configured = false;
+            }
+
+            return configured;
         }
     }
 }

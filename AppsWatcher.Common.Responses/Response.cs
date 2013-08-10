@@ -9,5 +9,10 @@ namespace AppsWatcher.Common.Responses
 
         [DataMember]
         public string Message { get; set; }
+
+        public Response()
+        {
+            this.Succed = true;
+        }
     }
 }

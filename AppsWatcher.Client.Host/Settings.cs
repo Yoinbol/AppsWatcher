@@ -5,7 +5,7 @@ namespace AppsWatcher.Client.Host
     /// <summary>
     /// 
     /// </summary>
-    internal static class Configuration
+    internal static class Settings
     {
         const int defaultInterval = 1000;
 

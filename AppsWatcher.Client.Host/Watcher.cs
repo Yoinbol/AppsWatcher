@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using AppsWatcher.Common.Core;
 using AppsWatcher.Common.Models;
-using AppWatcher.Client.EndPoints;
+using AppsWatcher.Client.EndPoints;
 
 namespace AppsWatcher.Client.Host
 {
@@ -104,7 +104,7 @@ namespace AppsWatcher.Client.Host
 
                 foreach (var endPoint in endPoints)
                 {
-                    if (DateTime.Now.Subtract(endPoint.LastSave).TotalSeconds > endPoint.Interval)
+                    if (DateTime.Now.Subtract(endPoint.LastSave).TotalMilliseconds > endPoint.Config.Interval)
                     {
                         var saveResponse = endPoint.Save(this.Session);
 

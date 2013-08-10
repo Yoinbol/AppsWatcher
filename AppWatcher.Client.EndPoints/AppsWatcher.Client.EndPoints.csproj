@@ -7,8 +7,8 @@
     <ProjectGuid>{F5651377-5CF2-4845-B6FA-0CE5B82546E0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AppWatcher.Client.EndPoints</RootNamespace>
-    <AssemblyName>AppWatcher.Client.EndPoints</AssemblyName>
+    <RootNamespace>AppsWatcher.Client.EndPoints</RootNamespace>
+    <AssemblyName>AppsWatcher.Client.EndPoints</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -39,6 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\EndPointSetting.cs" />
+    <Compile Include="Configuration\EndPointSettingsConfigurationCollection.cs" />
+    <Compile Include="Configuration\EndPointConfig.cs" />
+    <Compile Include="Configuration\EndPointsConfigurationCollection.cs" />
+    <Compile Include="Configuration\EndPointsConfigurationSection.cs" />
     <Compile Include="DataBaseEndPoint.cs" />
     <Compile Include="EndPoint.cs" />
     <Compile Include="FileSystemEndPoint.cs" />

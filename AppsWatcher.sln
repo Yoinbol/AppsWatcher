@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repositories", "Repositorie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppsWatcher.Services.Contracts", "AppsWatcher.Services.Contracts\AppsWatcher.Services.Contracts.csproj", "{8EDF538D-EF20-4FAD-B802-247ED8BF831D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppWatcher.Client.EndPoints", "AppWatcher.Client.EndPoints\AppWatcher.Client.EndPoints.csproj", "{F5651377-5CF2-4845-B6FA-0CE5B82546E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppsWatcher.Client.EndPoints", "AppWatcher.Client.EndPoints\AppsWatcher.Client.EndPoints.csproj", "{F5651377-5CF2-4845-B6FA-0CE5B82546E0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{806ECBD2-A143-493F-866C-582A97939B3E}"
 EndProject

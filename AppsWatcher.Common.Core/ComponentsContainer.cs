@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autofac;
+﻿using Autofac;
 
 namespace AppsWatcher.Common.Core
 {
@@ -41,10 +36,15 @@ namespace AppsWatcher.Common.Core
         /// <returns></returns>
         public IContainer GetComponentsContainer()
         {
-            lock (_lock)
+            if (_componentsContainer == null)
             {
-                return _componentsContainer ?? (_componentsContainer = this.Build());
+                lock (_lock)
+                {
+                    _componentsContainer = this.Build();
+                }
             }
+
+            return _componentsContainer;
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace AppsWatcher.Common.Core
         /// </summary>
         public void RegisterComponent<TComponent>(TComponent component) where TComponent : class
         {
-            this.RegisterInstance<TComponent>(component).As(component.GetType());
+            this.RegisterInstance<TComponent>(component).As<TComponent>();
         }
 
         #endregion

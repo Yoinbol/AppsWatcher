@@ -2,7 +2,7 @@
 using AppsWatcher.Common.Models;
 using AppsWatcher.Common.Responses;
 
-namespace AppWatcher.Client.EndPoints
+namespace AppsWatcher.Client.EndPoints
 {
     /// <summary>
     /// 
@@ -17,14 +17,6 @@ namespace AppWatcher.Client.EndPoints
         public Response Save(Session session)
         {
             throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public int Interval
-        {
-            get { throw new NotImplementedException(); }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
+using AppsWatcher.Client.EndPoints.Configuration;
 
-namespace AppWatcher.Client.EndPoints
+namespace AppsWatcher.Client.EndPoints
 {
     /// <summary>
     /// 
@@ -15,6 +16,11 @@ namespace AppWatcher.Client.EndPoints
         /// <summary>
         /// 
         /// </summary>
+        protected EndPointConfig _config;
+
+        /// <summary>
+        /// 
+        /// </summary>
         public DateTime LastSave
         {
             get
@@ -24,6 +30,21 @@ namespace AppWatcher.Client.EndPoints
             set
             {
                 _lastSave = value;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public EndPointConfig Config
+        {
+            get
+            {
+                return _config;
+            }
+            set
+            {
+                _config = value;
             }
         }
     }

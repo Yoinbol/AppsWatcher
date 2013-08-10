@@ -1,8 +1,9 @@
 ﻿using System;
+using AppsWatcher.Client.EndPoints.Configuration;
 using AppsWatcher.Common.Models;
 using AppsWatcher.Common.Responses;
 
-namespace AppWatcher.Client.EndPoints
+namespace AppsWatcher.Client.EndPoints
 {
     /// <summary>
     /// 
@@ -19,7 +20,7 @@ namespace AppWatcher.Client.EndPoints
         /// <summary>
         /// 
         /// </summary>
-        int Interval { get; }
+        EndPointConfig Config { get; set; }
 
         /// <summary>
         /// 
