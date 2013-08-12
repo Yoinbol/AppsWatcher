@@ -161,6 +161,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SessionsController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -286,6 +287,40 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AppsWatcher.Common.Core\AppsWatcher.Common.Core.csproj">
+      <Project>{9fd0a85c-627a-436e-a53a-1886331c557a}</Project>
+      <Name>AppsWatcher.Common.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AppsWatcher.Common.Models\AppsWatcher.Common.Models.csproj">
+      <Project>{5ae15f18-95f4-4773-9df1-f9b68f627cf1}</Project>
+      <Name>AppsWatcher.Common.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AppsWatcher.Common.Responses\AppsWatcher.Common.Responses.csproj">
+      <Project>{04662772-29ed-4fa1-baf5-288c12ed3a57}</Project>
+      <Name>AppsWatcher.Common.Responses</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AppsWatcher.Repositories.Contracts\AppsWatcher.Repositories.Contracts.csproj">
+      <Project>{4e10fff0-63ee-46f2-9558-c5c587a0b47b}</Project>
+      <Name>AppsWatcher.Repositories.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AppsWatcher.Repositories.Core\AppsWatcher.Repositories.Core.csproj">
+      <Project>{8cd20735-d9a9-4311-8591-05e26767805a}</Project>
+      <Name>AppsWatcher.Repositories.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AppsWatcher.Repositories\AppsWatcher.Repositories.csproj">
+      <Project>{78da745f-4655-4763-970a-bbf49df160d7}</Project>
+      <Name>AppsWatcher.Repositories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AppsWatcher.Services.Contracts\AppsWatcher.Services.Contracts.csproj">
+      <Project>{8edf538d-ef20-4fad-b802-247ed8bf831d}</Project>
+      <Name>AppsWatcher.Services.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AppsWatcher.Services\AppsWatcher.Services.csproj">
+      <Project>{8038290e-c217-4846-a5d5-3d3ad49e4181}</Project>
+      <Name>AppsWatcher.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

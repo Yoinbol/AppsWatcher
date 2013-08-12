@@ -1,5 +1,6 @@
 ﻿using System;
 using AppsWatcher.Client.EndPoints.Configuration;
+using AppsWatcher.Common.Models;
 
 namespace AppsWatcher.Client.EndPoints
 {
@@ -46,6 +47,16 @@ namespace AppsWatcher.Client.EndPoints
             {
                 _config = value;
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="session"></param>
+        /// <returns></returns>
+        public virtual string GetStorePath(Session session)
+        {
+            throw new NotFiniteNumberException();
         }
     }
 }

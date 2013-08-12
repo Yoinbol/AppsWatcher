@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
 using AppsWatcher.Common.Core;
 using AppsWatcher.Common.Models;
 using AppsWatcher.Client.EndPoints;
+using System.IO;
+using System.Xml.Linq;
 
 namespace AppsWatcher.Client.Host
 {
@@ -37,11 +40,36 @@ namespace AppsWatcher.Client.Host
             {
                 if (_session == null)
                 {
-                    _session = new Session();
+                    _session = new Session
+                    {
+                        Day = DateTime.Now.Date,
+                        User = new User { Name = System.Security.Principal.WindowsIdentity.GetCurrent().Name }
+                    };
+
+                    _session.Applications = this.LoadSessionApplications(_session);
                 }
 
                 return _session;
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="session"></param>
+        /// <returns></returns>
+        private Dictionary<ApplicationKey, ApplicationInfo> LoadSessionApplications(Session session)
+        {
+            var apps = new Dictionary<ApplicationKey, ApplicationInfo>();
+            var fileSystemEndPoint = ComponentsContainer.Instance.Resolve<IEnumerable<IEndPoint>>().First(ep => ep is FileSystemEndPoint) as FileSystemEndPoint;
+            var path = fileSystemEndPoint.GetStorePath(session);
+
+            if (File.Exists(path))
+            {
+                XDocument xdocument = XDocument.Load(path);
+            }
+
+            return apps;
         }
 
         /// <summary>

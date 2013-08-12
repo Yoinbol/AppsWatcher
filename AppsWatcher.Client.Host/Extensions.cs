@@ -1,4 +1,5 @@
 ﻿using System;
+using AppsWatcher.Common.Models;
 
 namespace AppsWatcher.Client.Host
 {

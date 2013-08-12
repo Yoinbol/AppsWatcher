@@ -1,15 +1,30 @@
 ﻿using System;
+using System.Web.Http;
 using AppsWatcher.Common.Models;
 using AppsWatcher.Common.Responses;
 using AppsWatcher.Services.Contracts;
 
-namespace AppsWatcher.Services
+namespace AppsWatcher.Api.Controllers
 {
     /// <summary>
     /// 
     /// </summary>
-    public class SessionsService : ISessionsService
+    public class SessionsController : ApiController
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        private readonly ISessionsService _service;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="service"></param>
+        public SessionsController(ISessionsService service)
+        {
+            _service = service;
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -17,7 +32,7 @@ namespace AppsWatcher.Services
         /// <returns></returns>
         public Response Save(Session session)
         {
-            throw new NotImplementedException();
+            return _service.Save(session);
         }
 
         /// <summary>
@@ -30,7 +45,7 @@ namespace AppsWatcher.Services
         /// <returns></returns>
         public CollectionResponse<SessionHeader> GetSessions(int page, int pageSize, DateTime? day = null, string userName = null)
         {
-            throw new NotImplementedException();
+            return _service.GetSessions(page, pageSize, day, userName);
         }
     }
 }

@@ -30,6 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.3.1.1\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper">
+      <HintPath>..\packages\Dapper.1.13\lib\net45\Dapper.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -39,9 +45,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository.cs" />
+    <Compile Include="SessionsRepository.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AppsWatcher.Common.Core\AppsWatcher.Common.Core.csproj">
+      <Project>{9fd0a85c-627a-436e-a53a-1886331c557a}</Project>
+      <Name>AppsWatcher.Common.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AppsWatcher.Common.Models\AppsWatcher.Common.Models.csproj">
       <Project>{5ae15f18-95f4-4773-9df1-f9b68f627cf1}</Project>
       <Name>AppsWatcher.Common.Models</Name>
@@ -50,6 +63,13 @@
       <Project>{4e10fff0-63ee-46f2-9558-c5c587a0b47b}</Project>
       <Name>AppsWatcher.Repositories.Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AppsWatcher.Repositories.Core\AppsWatcher.Repositories.Core.csproj">
+      <Project>{8cd20735-d9a9-4311-8591-05e26767805a}</Project>
+      <Name>AppsWatcher.Repositories.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
