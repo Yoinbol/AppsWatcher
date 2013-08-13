@@ -37,7 +37,7 @@ namespace AppsWatcher.Client.EndPoints
         /// <returns></returns>
         internal static XNode ToNode(this Session session)
         {
-            XElement sessionNode = new XElement("Session", new XAttribute("user", session.User.Name), new XAttribute("day", session.Day.ToMyString()));
+            XElement sessionNode = new XElement("Session", new XAttribute("user", session.User.UserLogin), new XAttribute("day", session.Day.ToMyString()));
             XElement applicationsNode = new XElement("Apps");
             sessionNode.Add(applicationsNode);
 
@@ -80,7 +80,7 @@ namespace AppsWatcher.Client.EndPoints
             return xdocument
                 .Element("Sessions")
                 .Elements("Session")
-                .FirstOrDefault(e => e.Attribute("user").Value.Equals(session.User.Name, StringComparison.InvariantCultureIgnoreCase) &&
+                .FirstOrDefault(e => e.Attribute("user").Value.Equals(session.User.UserLogin, StringComparison.InvariantCultureIgnoreCase) &&
                                     e.Attribute("day").Value.Equals(session.Day.ToMyString(), StringComparison.InvariantCultureIgnoreCase));
         }
     }

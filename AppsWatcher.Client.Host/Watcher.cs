@@ -43,7 +43,7 @@ namespace AppsWatcher.Client.Host
                     _session = new Session
                     {
                         Day = DateTime.Now.Date,
-                        User = new User { Name = System.Security.Principal.WindowsIdentity.GetCurrent().Name }
+                        User = new User { UserLogin = System.Security.Principal.WindowsIdentity.GetCurrent().Name }
                     };
 
                     _session.Applications = this.LoadSessionApplications(_session);

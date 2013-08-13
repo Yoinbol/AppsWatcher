@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.3.1.1\lib\net40\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,6 +46,10 @@
     <Compile Include="SessionsService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AppsWatcher.Common.Core\AppsWatcher.Common.Core.csproj">
+      <Project>{9fd0a85c-627a-436e-a53a-1886331c557a}</Project>
+      <Name>AppsWatcher.Common.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AppsWatcher.Common.Models\AppsWatcher.Common.Models.csproj">
       <Project>{5ae15f18-95f4-4773-9df1-f9b68f627cf1}</Project>
       <Name>AppsWatcher.Common.Models</Name>
@@ -59,6 +66,9 @@
       <Project>{8edf538d-ef20-4fad-b802-247ed8bf831d}</Project>
       <Name>AppsWatcher.Services.Contracts</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

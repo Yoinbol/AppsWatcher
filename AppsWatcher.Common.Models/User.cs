@@ -1,10 +1,12 @@
 ﻿using System.Runtime.Serialization;
+using AppsWatcher.Common.Models.Annotations;
 
 namespace AppsWatcher.Common.Models
 {
+    [Alias("Users")]
     public class User : DomainModel
     {
         [DataMember]
-        public string Name { get; set; }
+        public string UserLogin { get; set; }
     }
 }

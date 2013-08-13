@@ -34,6 +34,7 @@
       <HintPath>..\packages\Autofac.3.1.1\lib\net40\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -42,8 +43,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComponentDefinition.cs" />
     <Compile Include="ComponentsContainer.cs" />
+    <Compile Include="Configuration\Component.cs" />
+    <Compile Include="Configuration\Components.cs" />
+    <Compile Include="Configuration\Ensure.cs" />
+    <Compile Include="Configuration\ForEachComponent.cs" />
+    <Compile Include="Configuration\GenericOf.cs" />
+    <Compile Include="Configuration\InjectionConfigurationSection.cs" />
+    <Compile Include="Configuration\ModuleConfig.cs" />
+    <Compile Include="Configuration\ModulesConfigurationCollection.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
