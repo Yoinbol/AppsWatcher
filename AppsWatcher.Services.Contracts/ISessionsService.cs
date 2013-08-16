@@ -14,7 +14,7 @@ namespace AppsWatcher.Services.Contracts
         /// </summary>
         /// <param name="session"></param>
         /// <returns></returns>
-        Response Save(Session session);
+        SingleResponse<long> Save(Session session);
 
         /// <summary>
         /// 
@@ -24,6 +24,14 @@ namespace AppsWatcher.Services.Contracts
         /// <param name="day"></param>
         /// <param name="userName"></param>
         /// <returns></returns>
-        CollectionResponse<SessionHeader> GetSessions(int page, int pageSize, DateTime? day = null, string userName = null);
+        CollectionResponse<SessionHeader> GetSessions(int start, int end, long? sessionId = null, DateTime? day = null, string userLogin = null);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="day"></param>
+        /// <param name="userLogin"></param>
+        /// <returns></returns>
+        SingleResponse<Session> GetSession(DateTime day, string userLogin);
     }
 }

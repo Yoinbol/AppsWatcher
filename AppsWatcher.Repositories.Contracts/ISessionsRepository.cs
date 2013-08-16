@@ -9,6 +9,23 @@ namespace AppsWatcher.Repositories.Contracts
     /// </summary>
     public interface ISessionsRepository : IRepository<Session>
     {
-        IEnumerable<Session> GetSessions(int page, int pageSize, DateTime? day = null, string userName = null);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="sessionId"></param>
+        /// <param name="day"></param>
+        /// <param name="userLogin"></param>
+        /// <returns></returns>
+        IEnumerable<Session> GetSessions(int start, int end, long? sessionId = null, DateTime? day = null, string userLogin = null);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="day"></param>
+        /// <param name="userLogin"></param>
+        /// <returns></returns>
+        Session GetSession(DateTime day, string userLogin);
     }
 }

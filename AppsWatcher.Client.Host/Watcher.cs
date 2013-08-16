@@ -1,12 +1,15 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Security.Principal;
+using System.Xml.Linq;
+using AppsWatcher.Client.EndPoints;
 using AppsWatcher.Common.Core;
 using AppsWatcher.Common.Models;
-using AppsWatcher.Client.EndPoints;
-using System.IO;
-using System.Xml.Linq;
+using log4net;
 
 namespace AppsWatcher.Client.Host
 {
@@ -15,10 +18,10 @@ namespace AppsWatcher.Client.Host
     /// </summary>
     internal class Watcher : System.Windows.Forms.Timer
     {
-        private ApplicationKey _currentAppKey;
+        private string _currentAppKey;
         private Session _session;
         private DateTime _applfocustime;
-        //protected static readonly log4net.ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        protected static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         /// <summary>
         /// 
@@ -43,7 +46,7 @@ namespace AppsWatcher.Client.Host
                     _session = new Session
                     {
                         Day = DateTime.Now.Date,
-                        User = new User { UserLogin = System.Security.Principal.WindowsIdentity.GetCurrent().Name }
+                        User = new User { UserLogin = WindowsIdentity.GetCurrent().Name }
                     };
 
                     _session.Applications = this.LoadSessionApplications(_session);
@@ -58,15 +61,25 @@ namespace AppsWatcher.Client.Host
         /// </summary>
         /// <param name="session"></param>
         /// <returns></returns>
-        private Dictionary<ApplicationKey, ApplicationInfo> LoadSessionApplications(Session session)
+        private Dictionary<string, ApplicationTrack> LoadSessionApplications(Session session)
         {
-            var apps = new Dictionary<ApplicationKey, ApplicationInfo>();
-            var fileSystemEndPoint = ComponentsContainer.Instance.Resolve<IEnumerable<IEndPoint>>().First(ep => ep is FileSystemEndPoint) as FileSystemEndPoint;
-            var path = fileSystemEndPoint.GetStorePath(session);
+            var apps = new Dictionary<string, ApplicationTrack>();
 
-            if (File.Exists(path))
+            try
             {
-                XDocument xdocument = XDocument.Load(path);
+                var fileSystemEndPoint = ComponentsContainer.Instance.Resolve<IEnumerable<IEndPoint>>().First(ep => ep is FileSystemEndPoint) as FileSystemEndPoint;
+                var path = fileSystemEndPoint.GetStorePath(session);
+
+                if (File.Exists(path))
+                {
+                    XDocument xdocument = XDocument.Load(path);
+
+                    //TODO...
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
             }
 
             return apps;
@@ -87,33 +100,31 @@ namespace AppsWatcher.Client.Host
                 Int32 pid = MyWin32.GetWindowProcessID(hwnd);
                 Process p = Process.GetProcessById(pid);
                 var appName = p.ProcessName;
-                var appltitle = hwnd.GetAppTitle();
-                var appKey = new ApplicationKey { ApplicationName = appName, ApplicationTitle = appltitle };
 
-                if (!Session.Applications.ContainsKey(appKey))
+                if (!Session.Applications.ContainsKey(appName))
                 {
-                    Session.Applications.Add(appKey, new ApplicationInfo { ApplicationName = appName, ApplicationTitle = appltitle });
+                    Session.Applications.Add(appName, new ApplicationTrack { ApplicationName = appName, Duration = new TimeSpan() });
                 }
 
-                if (appKey != _currentAppKey)
+                if (appName != _currentAppKey)
                 {
                     if (_currentAppKey != null && Session.Applications.ContainsKey(_currentAppKey))
                     {
                         var applfocusinterval = DateTime.Now.Subtract(_applfocustime);
                         var appInfo = Session.Applications[_currentAppKey];
-                        appInfo.Seconds += applfocusinterval.TotalSeconds;
+                        appInfo.Duration += applfocusinterval;
                     }
 
-                    _currentAppKey = appKey;
+                    _currentAppKey = appName;
                     _applfocustime = DateTime.Now;
                 }
 
                 //"Save"
                 this.Save();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //log.Error(ex.Message);
+                Log.Error(ex.Message);
             }
             finally
             {
@@ -132,19 +143,27 @@ namespace AppsWatcher.Client.Host
 
                 foreach (var endPoint in endPoints)
                 {
-                    if (DateTime.Now.Subtract(endPoint.LastSave).TotalMilliseconds > endPoint.Config.Interval)
+                    try
                     {
-                        var saveResponse = endPoint.Save(this.Session);
-
-                        if (saveResponse.Succed)
+                        if (DateTime.Now.Subtract(endPoint.LastSave).TotalMilliseconds > endPoint.Config.Interval)
                         {
-                            endPoint.LastSave = DateTime.Now;
+                            var saveResponse = endPoint.Save(this.Session);
+
+                            if (saveResponse.Succed)
+                            {
+                                endPoint.LastSave = DateTime.Now;
+                            }
                         }
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error(ex.Message);
                     }
                 }
             }
-            catch (Exception)
-            { 
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
             }
         }
     }

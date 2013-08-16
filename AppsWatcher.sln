@@ -33,6 +33,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppsWatcher.Common.Core", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppsWatcher.Client.Host", "AppsWatcher.Client.Host\AppsWatcher.Client.Host.csproj", "{642C65A4-5BAF-4ABB-BEEB-FB6EE1B5F622}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppsWatcher.Services.Helpers.Contracts", "AppsWatcher.Services.Helpers.Contracts\AppsWatcher.Services.Helpers.Contracts.csproj", "{76A91C8A-CD2A-4424-AA9B-CD2C7461259A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppsWatcher.Services.Helpers", "AppsWatcher.Services.Helpers\AppsWatcher.Services.Helpers.csproj", "{6CAEFC81-C482-427B-A2B3-C72B6BB258DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +87,14 @@ Global
 		{642C65A4-5BAF-4ABB-BEEB-FB6EE1B5F622}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{642C65A4-5BAF-4ABB-BEEB-FB6EE1B5F622}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{642C65A4-5BAF-4ABB-BEEB-FB6EE1B5F622}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76A91C8A-CD2A-4424-AA9B-CD2C7461259A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76A91C8A-CD2A-4424-AA9B-CD2C7461259A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76A91C8A-CD2A-4424-AA9B-CD2C7461259A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76A91C8A-CD2A-4424-AA9B-CD2C7461259A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CAEFC81-C482-427B-A2B3-C72B6BB258DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CAEFC81-C482-427B-A2B3-C72B6BB258DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CAEFC81-C482-427B-A2B3-C72B6BB258DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CAEFC81-C482-427B-A2B3-C72B6BB258DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -99,5 +111,7 @@ Global
 		{8CD20735-D9A9-4311-8591-05E26767805A} = {B90986F1-B79F-4F5F-A6D4-A2891BB7305C}
 		{8EDF538D-EF20-4FAD-B802-247ED8BF831D} = {806ECBD2-A143-493F-866C-582A97939B3E}
 		{8038290E-C217-4846-A5D5-3D3AD49E4181} = {806ECBD2-A143-493F-866C-582A97939B3E}
+		{76A91C8A-CD2A-4424-AA9B-CD2C7461259A} = {806ECBD2-A143-493F-866C-582A97939B3E}
+		{6CAEFC81-C482-427B-A2B3-C72B6BB258DB} = {806ECBD2-A143-493F-866C-582A97939B3E}
 	EndGlobalSection
 EndGlobal

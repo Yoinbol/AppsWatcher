@@ -39,12 +39,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AjaxMin">
+      <HintPath>..\packages\AjaxMin.4.86.4836.34222\lib\net40\AjaxMin.dll</HintPath>
+    </Reference>
     <Reference Include="Autofac, Version=3.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Autofac.3.1.1\lib\net40\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="Autofac.Integration.WebApi">
       <HintPath>..\packages\Autofac.WebApi.3.1.0\lib\net40\Autofac.Integration.WebApi.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoProxy">
+      <HintPath>..\packages\AutoProxy.2.0.0.3\lib\net45\AutoProxy.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
@@ -169,6 +175,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SessionsController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -176,6 +183,49 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Content\css\fonts\fontawesome\css\font-awesome-ie7.min.css" />
+    <Content Include="Content\css\fonts\fontawesome\css\font-awesome.css" />
+    <Content Include="Content\css\fonts\fontawesome\css\font-awesome.min.css" />
+    <Content Include="Content\css\fonts\fontawesome\font\fontawesome-webfont.svg" />
+    <Content Include="Content\css\img\breadcrumbs-bg.gif" />
+    <Content Include="Content\css\img\bx_loader.gif" />
+    <Content Include="Content\css\img\controls.png" />
+    <Content Include="Content\css\img\fancybox\blank.gif" />
+    <Content Include="Content\css\img\fancybox\fancybox-x.png" />
+    <Content Include="Content\css\img\fancybox\fancybox-y.png" />
+    <Content Include="Content\css\img\fancybox\fancybox.png" />
+    <Content Include="Content\css\img\fancybox\fancy_close.png" />
+    <Content Include="Content\css\img\fancybox\fancy_loading.png" />
+    <Content Include="Content\css\img\fancybox\fancy_nav_left.png" />
+    <Content Include="Content\css\img\fancybox\fancy_nav_right.png" />
+    <Content Include="Content\css\img\fancybox\fancy_shadow_e.png" />
+    <Content Include="Content\css\img\fancybox\fancy_shadow_n.png" />
+    <Content Include="Content\css\img\fancybox\fancy_shadow_ne.png" />
+    <Content Include="Content\css\img\fancybox\fancy_shadow_nw.png" />
+    <Content Include="Content\css\img\fancybox\fancy_shadow_s.png" />
+    <Content Include="Content\css\img\fancybox\fancy_shadow_se.png" />
+    <Content Include="Content\css\img\fancybox\fancy_shadow_sw.png" />
+    <Content Include="Content\css\img\fancybox\fancy_shadow_w.png" />
+    <Content Include="Content\css\img\fancybox\fancy_title_left.png" />
+    <Content Include="Content\css\img\fancybox\fancy_title_main.png" />
+    <Content Include="Content\css\img\fancybox\fancy_title_over.png" />
+    <Content Include="Content\css\img\fancybox\fancy_title_right.png" />
+    <Content Include="Content\css\img\fancybox\jquery.easing-1.3.pack.js" />
+    <Content Include="Content\css\img\fancybox\jquery.fancybox-1.3.4.js" />
+    <Content Include="Content\css\img\fancybox\jquery.fancybox-1.3.4.pack.js" />
+    <Content Include="Content\css\img\fancybox\jquery.mousewheel-3.0.4.pack.js" />
+    <Content Include="Content\css\img\gray_jean.png" />
+    <Content Include="Content\css\img\icon-arrow-right.png" />
+    <Content Include="Content\css\jquery.fancybox-1.3.4.css" />
+    <Content Include="Content\css\kickstart-buttons.css" />
+    <Content Include="Content\css\kickstart-forms.css" />
+    <Content Include="Content\css\kickstart-grid.css" />
+    <Content Include="Content\css\kickstart-menus.css" />
+    <Content Include="Content\css\kickstart-slideshow.css" />
+    <Content Include="Content\css\kickstart.css" />
+    <Content Include="Content\css\prettify.css" />
+    <Content Include="Content\css\tiptip.css" />
+    <Content Include="Content\style.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -245,6 +295,12 @@
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <Content Include="InjectionConfiguration.config" />
     <Content Include="connectionStrings.config" />
+    <Content Include="Content\css\fonts\fontawesome\font\fontawesome-webfont.eot" />
+    <Content Include="Content\css\fonts\fontawesome\font\fontawesome-webfont.ttf" />
+    <Content Include="Content\css\fonts\fontawesome\font\fontawesome-webfont.woff" />
+    <Content Include="Content\css\fonts\fontawesome\font\FontAwesome.otf" />
+    <Content Include="Logging.config" />
+    <Content Include="AutoProxy.config" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
@@ -257,9 +313,12 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\kickstart.js" />
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\proxy\appswatcher.proxy.min.js" />
+    <Content Include="Scripts\proxy\autoproxy.core.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -268,7 +327,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
-    <Content Include="Content\Site.css" />
     <Content Include="Images\accent.png" />
     <Content Include="Images\bullet.png" />
     <Content Include="Images\heroAccent.png" />
@@ -324,6 +382,14 @@
     <ProjectReference Include="..\AppsWatcher.Services.Contracts\AppsWatcher.Services.Contracts.csproj">
       <Project>{8edf538d-ef20-4fad-b802-247ed8bf831d}</Project>
       <Name>AppsWatcher.Services.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AppsWatcher.Services.Helpers.Contracts\AppsWatcher.Services.Helpers.Contracts.csproj">
+      <Project>{76a91c8a-cd2a-4424-aa9b-cd2c7461259a}</Project>
+      <Name>AppsWatcher.Services.Helpers.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AppsWatcher.Services.Helpers\AppsWatcher.Services.Helpers.csproj">
+      <Project>{6caefc81-c482-427b-a2b3-c72b6bb258db}</Project>
+      <Name>AppsWatcher.Services.Helpers</Name>
     </ProjectReference>
     <ProjectReference Include="..\AppsWatcher.Services\AppsWatcher.Services.csproj">
       <Project>{8038290e-c217-4846-a5d5-3d3ad49e4181}</Project>

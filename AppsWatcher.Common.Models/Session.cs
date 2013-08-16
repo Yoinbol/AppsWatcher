@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using AppsWatcher.Common.Models.Annotations;
 
@@ -8,6 +9,12 @@ namespace AppsWatcher.Common.Models
     public class Session : SessionHeader
     {
         [DataMember]
-        public Dictionary<ApplicationKey, ApplicationInfo> Applications { get; set; }
+        public DateTime AddedOn { get; set; }
+
+        [DataMember]
+        public TimeSpan Duration { get; set; }
+
+        [DataMember]
+        public Dictionary<string, ApplicationTrack> Applications { get; set; }
     }
 }

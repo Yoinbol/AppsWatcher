@@ -1,7 +1,7 @@
 ﻿
 namespace AppsWatcher.Common.Core
 {
-    internal class ComponentDefinition
+    public class ComponentDefinition
     {
         public string AssemblyName { get; set; }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Data;
 using AppsWatcher.Common.Models;
@@ -24,14 +25,26 @@ namespace AppsWatcher.Repositories
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="page"></param>
-        /// <param name="pageSize"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="sessionId"></param>
         /// <param name="day"></param>
-        /// <param name="userName"></param>
+        /// <param name="userLogin"></param>
         /// <returns></returns>
-        public IEnumerable<Session> GetSessions(int page, int pageSize, DateTime? day = null, string userName = null)
+        public IEnumerable<Session> GetSessions(int start, int end, long? sessionId = null, DateTime? day = null, string userLogin = null)
         {
-            return Connection.Query<Session>("GetSessions", new { page, pageSize, day, userName }, commandType: CommandType.StoredProcedure);
+            return Connection.Query<Session>("GetSessions", new { start, end, sessionId, day, userLogin }, commandType: CommandType.StoredProcedure);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="day"></param>
+        /// <param name="userLogin"></param>
+        /// <returns></returns>
+        public Session GetSession(DateTime day, string userLogin)
+        {
+            return Connection.Query<Session>("GetSessions", new { start = 0, end = 0, day, userLogin }, commandType: CommandType.StoredProcedure).FirstOrDefault();
         }
     }
 }

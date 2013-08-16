@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Reflection;
 using AppsWatcher.Client.EndPoints.Configuration;
 using AppsWatcher.Common.Models;
+using log4net;
 
 namespace AppsWatcher.Client.EndPoints
 {
@@ -9,6 +11,11 @@ namespace AppsWatcher.Client.EndPoints
     /// </summary>
     public abstract class EndPoint
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        protected static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         /// <summary>
         /// 
         /// </summary>

@@ -10,6 +10,8 @@ namespace AppsWatcher.Common.Models
         [KeyProperty(Identity = true)]
         public long SessionId { get; set; }
 
+        public int UserId { get; set; }
+
         [DataMember]
         public User User { get; set; }
 

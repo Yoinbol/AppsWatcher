@@ -39,8 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IApplicationTracksRepository.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="ISessionsRepository.cs" />
+    <Compile Include="IUsersRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -44,7 +44,7 @@ namespace AppsWatcher.Client.EndPoints
             foreach (var app in session.Applications)
             {
                 XElement nameNode = new XElement("Name") { Value = app.Value.ApplicationName };
-                XElement timeNode = new XElement("Time") { Value = app.Value.Seconds.ToFriendlyTime() };
+                XElement timeNode = new XElement("Time") { Value = app.Value.Duration.ToString() };
                 XElement appNode = new XElement("App", nameNode, timeNode);
                 applicationsNode.Add(appNode);
             }
@@ -145,11 +145,11 @@ namespace AppsWatcher.Client.EndPoints
                     sessionsNode.Add(sessionNode);
                     xdocument.Add(sessionsNode);
                     xdocument.Save(path);
-
                 }
             }
             catch (Exception ex)
             {
+                Log.Error(ex.Message);
                 response.Succed = false;
             }
 

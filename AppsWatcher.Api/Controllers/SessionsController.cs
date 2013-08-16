@@ -30,6 +30,7 @@ namespace AppsWatcher.Api.Controllers
         /// </summary>
         /// <param name="session"></param>
         /// <returns></returns>
+        [HttpPost]
         public Response Save(Session session)
         {
             return _service.Save(session);
@@ -38,14 +39,28 @@ namespace AppsWatcher.Api.Controllers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="page"></param>
-        /// <param name="pageSize"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="sessionId"></param>
         /// <param name="day"></param>
-        /// <param name="userName"></param>
+        /// <param name="userLogin"></param>
         /// <returns></returns>
-        public CollectionResponse<SessionHeader> GetSessions(int page, int pageSize, DateTime? day = null, string userName = null)
+        [HttpGet]
+        public CollectionResponse<SessionHeader> GetSessions(int start, int end, long? sessionId = null, DateTime? day = null, string userLogin = null)
         {
-            return _service.GetSessions(page, pageSize, day, userName);
+            return _service.GetSessions(start, end, sessionId, day, userLogin);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="day"></param>
+        /// <param name="userLogin"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public SingleResponse<Session> GetSession(DateTime day, string userLogin)
+        {
+            return _service.GetSession(day, userLogin);
         }
     }
 }
