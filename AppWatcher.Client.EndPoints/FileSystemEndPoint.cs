@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
@@ -23,11 +22,11 @@ namespace AppsWatcher.Client.EndPoints
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="session"></param>
+        /// <param name="day"></param>
         /// <returns></returns>
-        internal static string GetStorePath(this Session session) 
+        internal static string GetFileName(this DateTime day) 
         {
-            return string.Format("{0}_{1}_{2}.xml", session.Day.Year, session.Day.Month, session.Day.Day);
+            return string.Format("{0}_{1}_{2}.xml", day.Year, day.Month, day.Day);
         }
 
         /// <summary>
@@ -37,9 +36,11 @@ namespace AppsWatcher.Client.EndPoints
         /// <returns></returns>
         internal static XNode ToNode(this Session session)
         {
-            XElement sessionNode = new XElement("Session", new XAttribute("user", session.User.UserLogin), new XAttribute("day", session.Day.ToMyString()));
+            XAttribute totalAttribute = new XAttribute("total", string.Empty);
+            XElement sessionNode = new XElement("Session", totalAttribute, new XAttribute("day", session.Day.ToMyString()), new XAttribute("user", session.User.UserLogin));
             XElement applicationsNode = new XElement("Apps");
             sessionNode.Add(applicationsNode);
+            TimeSpan total = new TimeSpan();
 
             foreach (var app in session.Applications)
             {
@@ -47,7 +48,10 @@ namespace AppsWatcher.Client.EndPoints
                 XElement timeNode = new XElement("Time") { Value = app.Duration.ToString() };
                 XElement appNode = new XElement("App", nameNode, timeNode);
                 applicationsNode.Add(appNode);
+                total += app.Duration;
             }
+
+            totalAttribute.Value = total.ToString();
 
             return sessionNode;
         }
@@ -75,13 +79,25 @@ namespace AppsWatcher.Client.EndPoints
         /// <param name="xdocument"></param>
         /// <param name="session"></param>
         /// <returns></returns>
-        internal static XNode FindSession(this XDocument xdocument, Session session)
+        internal static XElement FindSession(this XDocument xdocument, Session session)
         {
             return xdocument
                 .Element("Sessions")
                 .Elements("Session")
                 .FirstOrDefault(e => e.Attribute("user").Value.Equals(session.User.UserLogin, StringComparison.InvariantCultureIgnoreCase) &&
                                     e.Attribute("day").Value.Equals(session.Day.ToMyString(), StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        internal static ApplicationTrack ToApplicationTrack(this XElement element)
+        {
+            var nameNode = element.Element("Name");
+            var timeNode = element.Element("Time");
+            return new ApplicationTrack { ApplicationName = nameNode.Value, Duration = TimeSpan.Parse(timeNode.Value) };
         }
     }
 
@@ -97,7 +113,7 @@ namespace AppsWatcher.Client.EndPoints
         /// <returns></returns>
         public override string GetStorePath(Session session)
         {
-            return System.IO.Path.Combine(this.StorePath, session.GetStorePath());
+            return System.IO.Path.Combine(this.StorePath, session.Day.GetFileName());
         }
 
         /// <summary>
@@ -153,39 +169,44 @@ namespace AppsWatcher.Client.EndPoints
         /// <returns></returns>
         public override SingleResponse<Session> LoadSession(DateTime day, string userLogin)
         {
-            //var session = base.LoadSession(day, userLogin);
-            //session.Applications = LoadSessionApplications(session);
-            //return session;
-
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="session"></param>
-        /// <returns></returns>
-        protected List<ApplicationTrack> LoadSessionApplications(Session session)
-        {
-            var apps = new List<ApplicationTrack>();
+            var response = new SingleResponse<Session>();
 
             try
             {
-                var path = this.GetStorePath(session);
+                //Create the session
+                response.Data = new Session { Day = day, User = new User { UserLogin = userLogin } };
 
+                //"Resolve" the session file path
+                var path = this.GetStorePath(response.Data);
+
+                //Does the file exists?
                 if (File.Exists(path))
                 {
+                    //Load the document
                     XDocument xdocument = XDocument.Load(path);
 
-                    //TODO...
+                    //Search for the user session
+                    var sessionNode = xdocument.FindSession(response.Data);
+
+                    //Does the session exists?
+                    if (sessionNode != null)
+                    { 
+                        //Load all the app tracks
+                        foreach (var appNode in sessionNode.Element("Apps").Elements("App"))
+                        {
+                            response.Data.Applications.Add(appNode.ToApplicationTrack());
+                        }
+                    }
                 }
             }
             catch (Exception ex)
             {
                 Log.Error(ex.Message);
+                response.Succed = false;
+                response.Message = "Unexpected error";
             }
 
-            return apps;
+            return response;
         }
     }
 }

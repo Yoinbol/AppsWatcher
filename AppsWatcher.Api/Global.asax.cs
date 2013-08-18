@@ -26,7 +26,7 @@ namespace AppsWatcher.Api
             ComponentsContainer.Instance.RegisterApiControllers(Assembly.GetExecutingAssembly());
             GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver(ComponentsContainer.Instance.GetComponentsContainer());
 
-            //new AutoProxy.ProxyGenerator().ResolveProxies();
+            new AutoProxy.ProxyGenerator().ResolveProxies();
         }
     }
 }

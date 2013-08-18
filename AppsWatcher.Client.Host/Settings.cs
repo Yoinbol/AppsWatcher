@@ -20,5 +20,17 @@ namespace AppsWatcher.Client.Host
                 return int.TryParse(ConfigurationManager.AppSettings["Interval"], out interval) ? interval : defaultInterval;
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        internal static bool ShowIcon
+        {
+            get
+            {
+                var showIcon = false;
+                return bool.TryParse(ConfigurationManager.AppSettings["ShowIcon"], out showIcon) ? showIcon : false;
+            }
+        }
     }
 }

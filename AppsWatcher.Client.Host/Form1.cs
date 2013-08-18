@@ -42,6 +42,7 @@ namespace AppsWatcher.Client.Host
         private void Form1_Load(object sender, EventArgs e)
         {
             this.Visible = false;
+            this.notifyIcon1.Visible = Settings.ShowIcon;
 
             if (this.ConfigureEndPoints())
             {

@@ -16,5 +16,10 @@ namespace AppsWatcher.Common.Models
 
         [DataMember]
         public List<ApplicationTrack> Applications { get; set; }
+
+        public Session() 
+        {
+            this.Applications = new List<ApplicationTrack>();
+        }
     }
 }
