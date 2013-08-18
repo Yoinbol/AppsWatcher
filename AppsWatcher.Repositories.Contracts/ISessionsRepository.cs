@@ -25,7 +25,8 @@ namespace AppsWatcher.Repositories.Contracts
         /// </summary>
         /// <param name="day"></param>
         /// <param name="userLogin"></param>
+        /// <param name="pullDetail"></param>
         /// <returns></returns>
-        Session GetSession(DateTime day, string userLogin);
+        Session GetSession(DateTime day, string userLogin, bool pullDetail = false);
     }
 }

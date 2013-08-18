@@ -26,5 +26,25 @@ namespace AppsWatcher.Client.EndPoints
         /// 
         /// </summary>
         DateTime LastSave { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        string StorePath { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="session"></param>
+        /// <returns></returns>
+        string GetStorePath(Session session);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="day"></param>
+        /// <param name="userLogin"></param>
+        /// <returns></returns>
+        SingleResponse<Session> LoadSession(DateTime day, string userLogin);
     }
 }

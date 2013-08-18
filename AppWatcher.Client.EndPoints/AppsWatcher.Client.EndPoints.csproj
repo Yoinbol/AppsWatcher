@@ -33,9 +33,14 @@
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -56,6 +61,10 @@
     <Compile Include="WebApiEndPoint.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AppsWatcher.Common.Core\AppsWatcher.Common.Core.csproj">
+      <Project>{9fd0a85c-627a-436e-a53a-1886331c557a}</Project>
+      <Name>AppsWatcher.Common.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AppsWatcher.Common.Models\AppsWatcher.Common.Models.csproj">
       <Project>{5ae15f18-95f4-4773-9df1-f9b68f627cf1}</Project>
       <Name>AppsWatcher.Common.Models</Name>
@@ -63,6 +72,10 @@
     <ProjectReference Include="..\AppsWatcher.Common.Responses\AppsWatcher.Common.Responses.csproj">
       <Project>{04662772-29ed-4fa1-baf5-288c12ed3a57}</Project>
       <Name>AppsWatcher.Common.Responses</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AppsWatcher.Services.Contracts\AppsWatcher.Services.Contracts.csproj">
+      <Project>{8edf538d-ef20-4fad-b802-247ed8bf831d}</Project>
+      <Name>AppsWatcher.Services.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

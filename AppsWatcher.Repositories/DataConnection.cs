@@ -1,14 +1,25 @@
 ﻿using System;
 using System.Data;
+using System.Reflection;
+using log4net;
 
 namespace AppsWatcher.Repositories
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class DataConnection : IDisposable
     {
         #region Properties
 
+        /// <summary>
+        /// 
+        /// </summary>
         private IDbConnection _connection;
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected IDbConnection Connection
         {
             get
@@ -20,6 +31,10 @@ namespace AppsWatcher.Repositories
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="connection"></param>
         public DataConnection(IDbConnection connection)
         {
             _connection = connection;
@@ -27,6 +42,9 @@ namespace AppsWatcher.Repositories
 
         #endregion
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void Dispose()
         {
             try
@@ -36,6 +54,8 @@ namespace AppsWatcher.Repositories
             }
             catch (Exception ex)
             {
+                var log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+                log.Error(ex.Message);
             }
         }
     }

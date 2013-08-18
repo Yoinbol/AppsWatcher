@@ -68,5 +68,18 @@ namespace AppsWatcher.Client.EndPoints.Configuration
                 this["Settings"] = value;
             }
         }
+
+        [ConfigurationProperty("autoLoadSession", IsRequired = false, DefaultValue = false)]
+        public bool AutoLoadSession
+        {
+            get
+            {
+                return (bool)this["autoLoadSession"];
+            }
+            set
+            {
+                this["autoLoadSession"] = value;
+            }
+        }
     }
 }

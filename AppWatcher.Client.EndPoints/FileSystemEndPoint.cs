@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using AppsWatcher.Client.EndPoints.Configuration;
 using AppsWatcher.Common.Models;
 using AppsWatcher.Common.Responses;
 
@@ -43,8 +43,8 @@ namespace AppsWatcher.Client.EndPoints
 
             foreach (var app in session.Applications)
             {
-                XElement nameNode = new XElement("Name") { Value = app.Value.ApplicationName };
-                XElement timeNode = new XElement("Time") { Value = app.Value.Duration.ToString() };
+                XElement nameNode = new XElement("Name") { Value = app.ApplicationName };
+                XElement timeNode = new XElement("Time") { Value = app.Duration.ToString() };
                 XElement appNode = new XElement("App", nameNode, timeNode);
                 applicationsNode.Add(appNode);
             }
@@ -88,19 +88,8 @@ namespace AppsWatcher.Client.EndPoints
     /// <summary>
     /// 
     /// </summary>
-    public class FileSystemEndPoint : EndPoint, IEndPoint
+    public class FileSystemEndPoint : EndPoint
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        private string DirPath
-        {
-            get
-            {
-                return Config.Settings.OfType<EndPointSetting>().FirstOrDefault(s => s.Name.Equals("FilePath", StringComparison.InvariantCultureIgnoreCase)).Value;
-            }
-        }
-
         /// <summary>
         /// 
         /// </summary>
@@ -108,7 +97,7 @@ namespace AppsWatcher.Client.EndPoints
         /// <returns></returns>
         public override string GetStorePath(Session session)
         {
-            return System.IO.Path.Combine(DirPath, session.GetStorePath());
+            return System.IO.Path.Combine(this.StorePath, session.GetStorePath());
         }
 
         /// <summary>
@@ -116,7 +105,7 @@ namespace AppsWatcher.Client.EndPoints
         /// </summary>
         /// <param name="session"></param>
         /// <returns></returns>
-        public Response Save(Session session)
+        public override Response Save(Session session)
         {
             var response = new Response();
 
@@ -154,6 +143,49 @@ namespace AppsWatcher.Client.EndPoints
             }
 
             return response;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="day"></param>
+        /// <param name="userLogin"></param>
+        /// <returns></returns>
+        public override SingleResponse<Session> LoadSession(DateTime day, string userLogin)
+        {
+            //var session = base.LoadSession(day, userLogin);
+            //session.Applications = LoadSessionApplications(session);
+            //return session;
+
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="session"></param>
+        /// <returns></returns>
+        protected List<ApplicationTrack> LoadSessionApplications(Session session)
+        {
+            var apps = new List<ApplicationTrack>();
+
+            try
+            {
+                var path = this.GetStorePath(session);
+
+                if (File.Exists(path))
+                {
+                    XDocument xdocument = XDocument.Load(path);
+
+                    //TODO...
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+            }
+
+            return apps;
         }
     }
 }

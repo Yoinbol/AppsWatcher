@@ -61,10 +61,10 @@ namespace AppsWatcher.Services
                                 var appTracksRepository = lifetimeScope.Resolve<IApplicationTracksRepository>();
                                 foreach (var appTrack in session.Applications)
                                 {
-                                    var track = appTrack.Value;
-                                    track.AddedOn = DateTime.Now;
-                                    track.LastModifiedOn = DateTime.Now;
-                                    appTracksRepository.Save(track);
+                                    appTrack.SessionId = storedSession.SessionId;
+                                    appTrack.AddedOn = DateTime.Now;
+                                    appTrack.LastModifiedOn = DateTime.Now;
+                                    appTracksRepository.Save(appTrack);
                                 }
 
                                 //Commit
@@ -80,15 +80,14 @@ namespace AppsWatcher.Services
                         else
                         {
                             //The session exists
-                            //Update all the apps
-                            //Add each app track
+                            //Update all the app tracks
                             var appTracksRepository = lifetimeScope.Resolve<IApplicationTracksRepository>();
                             foreach (var appTrack in session.Applications)
                             {
-                                var track = appTrack.Value;
-                                track.AddedOn = DateTime.Now;
-                                track.LastModifiedOn = DateTime.Now;
-                                appTracksRepository.Save(track);
+                                appTrack.SessionId = storedSession.SessionId;
+                                appTrack.AddedOn = DateTime.Now;
+                                appTrack.LastModifiedOn = DateTime.Now;
+                                appTracksRepository.Save(appTrack);
                             }
 
                             //Commit
@@ -102,6 +101,7 @@ namespace AppsWatcher.Services
             }
             catch (Exception ex)
             {
+                Log.Error(ex.Message);
                 response.Succed = false;
                 response.Message = "Unexpected error";
             }
@@ -150,7 +150,7 @@ namespace AppsWatcher.Services
             try
             {
                 var repository = ComponentsContainer.Instance.Resolve<ISessionsRepository>();
-                response.Data = repository.GetSession(day, userLogin);
+                response.Data = repository.GetSession(day, userLogin, true);
             }
             catch (Exception ex)
             {

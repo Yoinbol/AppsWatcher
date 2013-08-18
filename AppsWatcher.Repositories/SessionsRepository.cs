@@ -41,10 +41,43 @@ namespace AppsWatcher.Repositories
         /// </summary>
         /// <param name="day"></param>
         /// <param name="userLogin"></param>
+        /// <param name="pullDetail"></param>
         /// <returns></returns>
-        public Session GetSession(DateTime day, string userLogin)
+        public Session GetSession(DateTime day, string userLogin, bool pullDetail = false)
         {
-            return Connection.Query<Session>("GetSessions", new { start = 0, end = 0, day, userLogin }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+            var result = Connection.QueryMultiple("GetSessions", new { start = 0, end = 0, day, userLogin, pullDetail }, commandType: CommandType.StoredProcedure);
+            var session = result.Read().Select(Parse).FirstOrDefault();
+
+            if (session != null && pullDetail)
+            {
+                session.Applications = result.Read<ApplicationTrack>().ToList();
+            }
+
+            return session;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="row"></param>
+        /// <returns></returns>
+        public override Session Parse(dynamic row)
+        {
+            return new Session
+            {
+                SessionId = row.SessionId,
+                Day = row.Day,
+                AddedOn = row.AddedOn,
+                Duration = row.Duration,
+                UserId = row.UserId,
+                User = new User 
+                {
+                    UserId = row.UserId,
+                    UserLogin = row.UserLogin,
+                    FirstName = row.FirstName,
+                    LastName = row.LastName
+                }
+            };
         }
     }
 }

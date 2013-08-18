@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
+using AppsWatcher.Client.EndPoints;
 using AppsWatcher.Client.EndPoints.Configuration;
 using AppsWatcher.Common.Core;
-using AppsWatcher.Client.EndPoints;
+using log4net;
 
 namespace AppsWatcher.Client.Host
 {
@@ -15,6 +16,11 @@ namespace AppsWatcher.Client.Host
     /// </summary>
     public partial class Form1 : Form
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        protected static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         /// <summary>
         /// 
         /// </summary>
@@ -109,6 +115,7 @@ namespace AppsWatcher.Client.Host
             }
             catch (Exception ex)
             {
+                Log.Error(ex.Message);
                 configured = false;
             }
 

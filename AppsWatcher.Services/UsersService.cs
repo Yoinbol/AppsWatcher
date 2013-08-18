@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using AppsWatcher.Common.Core;
 using AppsWatcher.Common.Models;
 using AppsWatcher.Common.Responses;
@@ -12,7 +10,7 @@ namespace AppsWatcher.Services
     /// <summary>
     /// 
     /// </summary>
-    public class UsersService : IUsersService
+    public class UsersService : BaseService, IUsersService
     {
         /// <summary>
         /// 
@@ -38,7 +36,10 @@ namespace AppsWatcher.Services
                 response.Data = usersRepository.GetAll();
             }
             catch (Exception ex)
-            { 
+            {
+                Log.Error(ex.Message);
+                response.Succed = false;
+                response.Message = "Unexpected error";
             }
 
             return response;

@@ -3,7 +3,6 @@ using AppsWatcher.Common.Core;
 using AppsWatcher.Common.Responses;
 using AppsWatcher.Repositories.Contracts;
 using AppsWatcher.Services.Contracts;
-using AppsWatcher.Common.Core;
 using AppsWatcher.Services.Helpers.Contracts;
 
 namespace AppsWatcher.Services

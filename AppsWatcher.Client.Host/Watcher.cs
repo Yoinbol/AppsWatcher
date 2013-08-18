@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Security.Principal;
-using System.Xml.Linq;
 using AppsWatcher.Client.EndPoints;
 using AppsWatcher.Common.Core;
 using AppsWatcher.Common.Models;
@@ -18,10 +16,25 @@ namespace AppsWatcher.Client.Host
     /// </summary>
     internal class Watcher : System.Windows.Forms.Timer
     {
-        private string _currentAppKey;
-        private Session _session;
-        private DateTime _applfocustime;
+        /// <summary>
+        /// 
+        /// </summary>
         protected static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private string _currentAppKey;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private Session _session;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private DateTime _applfocustime;
 
         /// <summary>
         /// 
@@ -43,46 +56,21 @@ namespace AppsWatcher.Client.Host
             {
                 if (_session == null)
                 {
-                    _session = new Session
-                    {
-                        Day = DateTime.Now.Date,
-                        User = new User { UserLogin = WindowsIdentity.GetCurrent().Name }
-                    };
+                    //Get the "default" endpoint
+                    var defaultEndPoint = ComponentsContainer.Instance.Resolve<IEnumerable<IEndPoint>>().First(ep => ep.Config.AutoLoadSession);
 
-                    _session.Applications = this.LoadSessionApplications(_session);
+                    //Load the session from the default endpoint
+                    var sessionResponse = defaultEndPoint.LoadSession(DateTime.Now.Date, WindowsIdentity.GetCurrent().Name);
+
+                    //Was the session loaded successfully?
+                    if(sessionResponse.Succed)
+                    {
+                        _session = sessionResponse.Data;
+                    }
                 }
 
                 return _session;
             }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="session"></param>
-        /// <returns></returns>
-        private Dictionary<string, ApplicationTrack> LoadSessionApplications(Session session)
-        {
-            var apps = new Dictionary<string, ApplicationTrack>();
-
-            try
-            {
-                var fileSystemEndPoint = ComponentsContainer.Instance.Resolve<IEnumerable<IEndPoint>>().First(ep => ep is FileSystemEndPoint) as FileSystemEndPoint;
-                var path = fileSystemEndPoint.GetStorePath(session);
-
-                if (File.Exists(path))
-                {
-                    XDocument xdocument = XDocument.Load(path);
-
-                    //TODO...
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex.Message);
-            }
-
-            return apps;
         }
 
         /// <summary>
@@ -101,25 +89,29 @@ namespace AppsWatcher.Client.Host
                 Process p = Process.GetProcessById(pid);
                 var appName = p.ProcessName;
 
-                if (!Session.Applications.ContainsKey(appName))
+                if (!Session.Applications.Any(app => app.ApplicationName.Equals(appName, StringComparison.InvariantCultureIgnoreCase)))
                 {
-                    Session.Applications.Add(appName, new ApplicationTrack { ApplicationName = appName, Duration = new TimeSpan() });
+                    Session.Applications.Add(new ApplicationTrack { ApplicationName = appName, Duration = new TimeSpan() });
                 }
 
                 if (appName != _currentAppKey)
                 {
-                    if (_currentAppKey != null && Session.Applications.ContainsKey(_currentAppKey))
+                    if (_currentAppKey != null)
                     {
-                        var applfocusinterval = DateTime.Now.Subtract(_applfocustime);
-                        var appInfo = Session.Applications[_currentAppKey];
-                        appInfo.Duration += applfocusinterval;
+                        var appInfo = Session.Applications.FirstOrDefault(app => app.ApplicationName.Equals(_currentAppKey, StringComparison.InvariantCultureIgnoreCase));
+
+                        if (appInfo != null)
+                        {
+                            var applfocusinterval = DateTime.Now.Subtract(_applfocustime);
+                            appInfo.Duration += applfocusinterval;
+                        }
                     }
 
                     _currentAppKey = appName;
                     _applfocustime = DateTime.Now;
                 }
 
-                //"Save"
+                //Save the session info into the configured endpoints
                 this.Save();
             }
             catch (Exception ex)

@@ -15,6 +15,6 @@ namespace AppsWatcher.Common.Models
         public TimeSpan Duration { get; set; }
 
         [DataMember]
-        public Dictionary<string, ApplicationTrack> Applications { get; set; }
+        public List<ApplicationTrack> Applications { get; set; }
     }
 }
