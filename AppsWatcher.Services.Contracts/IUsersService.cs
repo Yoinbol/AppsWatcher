@@ -13,7 +13,7 @@ namespace AppsWatcher.Services.Contracts
         /// </summary>
         /// <param name="instance"></param>
         /// <returns></returns>
-        SingleResponse<User> Add(User instance);
+        SingleResponse<User> Add(NewUser instance);
 
         /// <summary>
         /// 
@@ -30,14 +30,5 @@ namespace AppsWatcher.Services.Contracts
         /// <param name="lastName"></param>
         /// <returns></returns>
         CollectionResponse<User> Get(int? userId = null, string userLogin = null, string firstName = null, string lastName = null);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="oldPassword"></param>
-        /// <param name="newPassword"></param>
-        /// <returns></returns>
-        Response UpdatePassword(int userId, string oldPassword, string newPassword);
     }
 }

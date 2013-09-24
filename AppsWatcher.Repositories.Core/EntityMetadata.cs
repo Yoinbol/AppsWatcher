@@ -75,8 +75,8 @@ namespace AppsWatcher.Repositories.Core
             var aliasAttribute = entityType.GetCustomAttribute<Alias>();
             this.RepositoryName = aliasAttribute != null ? aliasAttribute.Value : entityType.Name;
 
-            //Load all the "primitive" entity properties
-            IEnumerable<PropertyInfo> props = entityType.GetProperties().Where(p => p.PropertyType.IsValueType || p.PropertyType.Name.Equals("String", StringComparison.InvariantCultureIgnoreCase));
+            //Load all the "primitive" entity properties (and byte[])
+            IEnumerable<PropertyInfo> props = entityType.GetProperties().Where(p => p.PropertyType.IsValueType || p.PropertyType.Name.Equals("String", StringComparison.InvariantCultureIgnoreCase) || p.PropertyType.Name.Equals("byte[]", StringComparison.InvariantCultureIgnoreCase));
 
             //Filter the base properties
             this.BaseProperties = props.Where(p => !p.GetCustomAttributes<CustomProperty>().Any() && !p.GetCustomAttributes<NonStored>().Any()).Select(p => new PropertyMetadata(p));

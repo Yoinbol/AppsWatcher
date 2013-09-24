@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Transactions;
 using AppsWatcher.Common.Core;
 using AppsWatcher.Common.Models;
 using AppsWatcher.Common.Responses;
 using AppsWatcher.Repositories.Contracts;
 using AppsWatcher.Services.Contracts;
+using AppsWatcher.Services.Helpers.Contracts;
+using Autofac;
 
 namespace AppsWatcher.Services
 {
@@ -17,9 +20,62 @@ namespace AppsWatcher.Services
         /// </summary>
         /// <param name="instance"></param>
         /// <returns></returns>
-        public SingleResponse<User> Add(User instance)
+        public SingleResponse<User> Add(NewUser instance)
         {
-            throw new NotImplementedException();
+            var response = new SingleResponse<User>();
+
+            try
+            {
+                using (var lifetimeScope = ComponentsContainer.Instance.BeginLifetimeScope())
+                {
+                    using (var transactionScope = new TransactionScope())
+                    {
+                        var usersRepository = lifetimeScope.Resolve<IUsersRepository>();
+                        var user = usersRepository.GetFirst(new { instance.UserLogin });
+
+                        if (user == null)
+                        {
+                            if (!string.IsNullOrEmpty(instance.FirstName) && !string.IsNullOrEmpty(instance.LastName) && !string.IsNullOrEmpty(instance.Password))
+                            {
+                                var securityProvider = lifetimeScope.Resolve<ISecurityProvider>();
+                                var salt = securityProvider.CreateSalt();
+
+                                user = new User 
+                                {
+                                    FirstName = instance.FirstName,
+                                    LastName = instance.LastName,
+                                    Email = instance.Email,
+                                    UserLogin = instance.UserLogin,
+                                    Password = securityProvider.Compute(instance.Password, salt),
+                                    Salt = salt
+                                };
+
+                                usersRepository.Add(user);
+                                transactionScope.Complete();
+                                response.Data = user;
+                            }
+                            else
+                            {
+                                response.Succed = false;
+                                response.Message = "You are missing some information about this user";
+                            }
+                        }
+                        else
+                        {
+                            response.Succed = false;
+                            response.Message = string.Format("User {0} already exists into the system", user.UserLogin);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                response.Succed = false;
+                response.Message = "Unexpected error";
+            }
+
+            return response;
         }
 
         /// <summary>
@@ -65,7 +121,7 @@ namespace AppsWatcher.Services
         /// <param name="oldPassword"></param>
         /// <param name="newPassword"></param>
         /// <returns></returns>
-        public Response UpdatePassword(int userId, string oldPassword, string newPassword)
+        public Response ResetPassword(int userId, string oldPassword, string newPassword)
         {
             throw new NotImplementedException();
         }

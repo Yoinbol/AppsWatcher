@@ -19,8 +19,11 @@ namespace AppsWatcher.Common.Models
         [DataMember]
         public string LastName { get; set; }
 
+        [DataMember]
+        public string Email { get; set; }
+
         public byte[] Password { get; set; }
 
-        public int Salt { get; set; }
+        public int? Salt { get; set; }
     }
 }

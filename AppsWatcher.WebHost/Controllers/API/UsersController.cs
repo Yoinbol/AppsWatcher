@@ -31,21 +31,9 @@ namespace AppsWatcher.WebHost.Controllers.API
         /// <param name="instance"></param>
         /// <returns></returns>
         [HttpPost]
-        public SingleResponse<User> Add(User instance)
+        public SingleResponse<User> Add(NewUser instance)
         {
             return _service.Add(instance);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="oldPassword"></param>
-        /// <param name="newPassword"></param>
-        /// <returns></returns>
-        public Response UpdatePassword(int userId, string oldPassword, string newPassword)
-        {
-            return _service.UpdatePassword(userId, oldPassword, newPassword);
         }
 
         /// <summary>

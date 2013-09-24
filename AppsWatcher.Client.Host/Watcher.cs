@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Security.Principal;
+using System.Text;
 using AppsWatcher.Client.EndPoints;
 using AppsWatcher.Common.Core;
 using AppsWatcher.Common.Models;
@@ -86,29 +87,30 @@ namespace AppsWatcher.Client.Host
 
                 IntPtr hwnd = MyWin32.GetForegroundWindow();
                 Int32 pid = MyWin32.GetWindowProcessID(hwnd);
-                Process p = Process.GetProcessById(pid);
-                var appName = p.ProcessName;
-
-                if (!Session.Applications.Any(app => app.ApplicationName.Equals(appName, StringComparison.InvariantCultureIgnoreCase)))
+                using (var p = Process.GetProcessById(pid))
                 {
-                    Session.Applications.Add(new ApplicationTrack { ApplicationName = appName, Duration = new TimeSpan() });
-                }
-
-                if (appName != _currentAppKey)
-                {
-                    if (_currentAppKey != null)
+                    var appName = p.ProcessName;
+                    if (!Session.Applications.Any(app => app.ApplicationName.Equals(appName, StringComparison.InvariantCultureIgnoreCase)))
                     {
-                        var appInfo = Session.Applications.FirstOrDefault(app => app.ApplicationName.Equals(_currentAppKey, StringComparison.InvariantCultureIgnoreCase));
-
-                        if (appInfo != null)
-                        {
-                            var applfocusinterval = DateTime.Now.Subtract(_applfocustime);
-                            appInfo.Duration += applfocusinterval;
-                        }
+                        Session.Applications.Add(new ApplicationTrack { ApplicationName = appName, Duration = new TimeSpan() });
                     }
 
-                    _currentAppKey = appName;
-                    _applfocustime = DateTime.Now;
+                    if (appName != _currentAppKey)
+                    {
+                        if (_currentAppKey != null)
+                        {
+                            var appInfo = Session.Applications.FirstOrDefault(app => app.ApplicationName.Equals(_currentAppKey, StringComparison.InvariantCultureIgnoreCase));
+
+                            if (appInfo != null)
+                            {
+                                var applfocusinterval = DateTime.Now.Subtract(_applfocustime);
+                                appInfo.Duration += applfocusinterval;
+                            }
+                        }
+
+                        _currentAppKey = appName;
+                        _applfocustime = DateTime.Now;
+                    }
                 }
 
                 //Save the session info into the configured endpoints

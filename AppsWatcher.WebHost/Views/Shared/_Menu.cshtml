@@ -1,0 +1,9 @@
+﻿<div class="right">
+    @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <input type="text" placeholder="User" id="loginUserName" name="user" />
+        <input type="text" placeholder="Password" id="loginUserPassword" name="password" />
+        <button class="red"><i class="icon-off"></i> Start</button>
+    }
+</div>

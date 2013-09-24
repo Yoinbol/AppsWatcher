@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using AppsWatcher.Common.Core;
+using AppsWatcher.Services.Contracts;
 
 namespace AppsWatcher.WebHost.Controllers
 {
@@ -10,8 +8,6 @@ namespace AppsWatcher.WebHost.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
-
             return View();
         }
 
@@ -27,6 +23,27 @@ namespace AppsWatcher.WebHost.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(string user, string password)
+        {
+            var service = ComponentsContainer.Instance.Resolve<IAuthenticationService>();
+            var response = service.Authenticate(user, password);
+
+            if (response.Succed)
+            {
+                return View("Dashboard", response.Data);
+            }
+
+            if (string.IsNullOrEmpty(response.Message))
+            {
+                ViewBag.ResponseMessage = response.Message;
+            }
+
+            return View("Index");
         }
     }
 }
