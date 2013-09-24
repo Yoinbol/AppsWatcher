@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppsWatcher.Services.Helper
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppsWatcher.WebHost", "AppsWatcher.WebHost\AppsWatcher.WebHost.csproj", "{F5519631-455D-4441-A987-3DD5B2455E66}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Customizations", "Customizations", "{E199805F-E20E-4A5C-8CBC-14F39187FAC1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
