@@ -197,6 +197,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\API\SessionsController.cs" />
     <Compile Include="Controllers\API\UsersController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -418,6 +419,10 @@
     <ProjectReference Include="..\AppsWatcher.Services\AppsWatcher.Services.csproj">
       <Project>{8038290e-c217-4846-a5d5-3d3ad49e4181}</Project>
       <Name>AppsWatcher.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AppsWatcher.Web\AppsWatcher.Web.csproj">
+      <Project>{cd564584-5d93-446e-b13e-5e92f2d299f4}</Project>
+      <Name>AppsWatcher.Web</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -1,9 +1,26 @@
-﻿<div class="right">
-    @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+﻿@using AppsWatcher.Web
+
+<div class="right">
+    @{
+        var currentUser = Html.GetCurrentUser();
+    }
+
+    @if (currentUser == null)
     {
-        @Html.AntiForgeryToken()
-        <input type="text" placeholder="User" id="loginUserName" name="user" />
-        <input type="text" placeholder="Password" id="loginUserPassword" name="password" />
-        <button class="red"><i class="icon-off"></i> Start</button>
+        using (Html.BeginForm("Login", "Home", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <input type="text" placeholder="User" id="loginUserName" name="user" />
+            <input type="password" placeholder="Password" id="loginUserPassword" name="password" />
+            <button class="red"><i class="icon-off"></i> Start</button>
+        } 
+    }
+    else
+    {
+        using (Html.BeginForm("Logout", "Home", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <button class="red"><i class="icon-off"></i> Log out</button>
+        }
     }
 </div>

@@ -4,27 +4,26 @@ using AppsWatcher.Services.Contracts;
 
 namespace AppsWatcher.WebHost.Controllers
 {
-    public class HomeController : Controller
+    /// <summary>
+    /// 
+    /// </summary>
+    public class HomeController : BaseController
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your app description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -35,6 +34,7 @@ namespace AppsWatcher.WebHost.Controllers
 
             if (response.Succed)
             {
+                SessionManager.CurrentUser = response.Data;
                 return View("Dashboard", response.Data);
             }
 
@@ -43,6 +43,17 @@ namespace AppsWatcher.WebHost.Controllers
                 ViewBag.ResponseMessage = response.Message;
             }
 
+            return View("Index");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Logout()
+        {
+            SessionManager.Clear();
             return View("Index");
         }
     }
